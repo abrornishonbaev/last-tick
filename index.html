@@ -8,10 +8,15 @@
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f4f1ea;--card:#fff;--tx:#222;--ac:#c0392b;--bd:#ddd}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,sans-serif;padding:16px;max-width:560px;margin:auto}
-body[data-ui=dark]{--bg:#16181d;--card:#22252c;--tx:#eee;--ac:#4aa3ff;--bd:#3a3e47}
-body[data-ui=neon]{--bg:#0b0221;--card:#1a0b3d;--tx:#f0e6ff;--ac:#ff2bd6;--bd:#5b2bb5}
-body[data-ui=sunset]{--bg:#ffe3cf;--card:#fff4ea;--tx:#4a1f0e;--ac:#e8590c;--bd:#f2b48c}
+body{margin:0;background:var(--bgi,var(--bg));background-attachment:fixed;color:var(--tx);font-family:system-ui,sans-serif;padding:16px;max-width:560px;margin:auto}
+[data-ui=light]{--bg:#f4f1ea;--card:#fff;--tx:#222;--ac:#c0392b;--bd:#ddd;--bgi:linear-gradient(#f4f1ea,#f4f1ea)}
+[data-ui=dark]{--bg:#16181d;--card:#22252c;--tx:#eee;--ac:#4aa3ff;--bd:#3a3e47;--bgi:linear-gradient(#16181d,#16181d)}
+[data-ui=neon]{--bg:#0b0221;--card:#1a0b3d;--tx:#f0e6ff;--ac:#ff2bd6;--bd:#5b2bb5;--bgi:linear-gradient(#0b0221,#2a0a5e)}
+[data-ui=sunset]{--bg:#ffe3cf;--card:#fff4ea;--tx:#4a1f0e;--ac:#e8590c;--bd:#f2b48c;--bgi:linear-gradient(#ffd9b8,#ffb48a)}
+[data-ui=forest]{--bg:#10261a;--card:#1b3d2a;--tx:#e8f5e9;--ac:#8bd450;--bd:#2f6b46;--bgi:repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 7px,transparent 7px 52px),linear-gradient(#0e2a1b,#1f5034)}
+[data-ui=ocean]{--bg:#06263f;--card:#0c3a5c;--tx:#e6f4ff;--ac:#3fd0ff;--bd:#1d6a99;--bgi:linear-gradient(#0d5a8c,#041a2e)}
+[data-ui=sakura]{--bg:#ffe8f0;--card:#fff7fa;--tx:#5a2a3c;--ac:#e0568a;--bd:#f4bdd0;--bgi:linear-gradient(#fff0f5,#ffc9dd)}
+[data-ui=space]{--bg:#05050f;--card:#12122b;--tx:#e9e9ff;--ac:#9f8bff;--bd:#33337a;--bgi:radial-gradient(1.5px 1.5px at 18% 22%,#fff,transparent),radial-gradient(1px 1px at 72% 12%,#fff,transparent),radial-gradient(2px 2px at 40% 68%,#cfd4ff,transparent),radial-gradient(1px 1px at 86% 78%,#fff,transparent),radial-gradient(1.5px 1.5px at 8% 90%,#dcd6ff,transparent),linear-gradient(#05050f,#161648)}
 h1{margin:0 0 8px;font-size:22px}
 .top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px;margin:12px 0}
@@ -23,6 +28,26 @@ body[data-sk=wood]{--s1:#c8924f;--s2:#8a5a24}
 body[data-sk=bamboo]{--s1:#9ccc65;--s2:#558b2f}
 body[data-sk=neon]{--s1:#2bffe0;--s2:#00a58e}
 body[data-sk=gold]{--s1:#ffd54a;--s2:#b8860b}
+body[data-sk=candy]{--s1:#e53935;--s2:#b71c1c}
+body[data-sk=bbam]{--s1:#3a342d;--s2:#1a1612}
+body[data-sk=ice]{--s1:#9fdcff;--s2:#4aa8e0}
+body[data-sk=lava]{--s1:#ff7a18;--s2:#c62d0e}
+.s-wood{background:linear-gradient(90deg,rgba(0,0,0,.25),rgba(255,255,255,.18) 30%,rgba(0,0,0,.25)),#c8924f;border-color:#8a5a24}
+.s-bamboo,.s-bbam{border:0;border-radius:3px;background:linear-gradient(90deg,rgba(0,0,0,.35),rgba(255,255,255,.38) 28%,rgba(255,255,255,0) 52%,rgba(0,0,0,.32)),var(--b)}
+.s-bamboo{--b:#86b94a;--r:#4a6b22}
+.s-bbam{--b:#3a342d;--r:#1a1612}
+.s-bamboo::before,.s-bamboo::after,.s-bbam::before,.s-bbam::after{content:"";position:absolute;left:-2px;right:-2px;height:7px;border-radius:3px;background:linear-gradient(90deg,rgba(0,0,0,.4),rgba(255,255,255,.3) 30%,rgba(0,0,0,.35)),var(--r)}
+.s-bamboo::before,.s-bbam::before{top:26%}
+.s-bamboo::after,.s-bbam::after{top:62%}
+.s-candy{border:0;background:repeating-linear-gradient(135deg,#e53935 0 7px,#fff 7px 14px)}
+.s-neon{border:1px solid #7fffe9;background:#2bffe0;box-shadow:0 0 8px #2bffe0}
+.s-gold{border:0;background:linear-gradient(90deg,#8a6a12,#ffe27a 30%,#c99a1c 60%,#7a5a0c)}
+.s-ice{border:1px solid #d6f2ff;background:linear-gradient(90deg,rgba(255,255,255,.75),rgba(140,210,255,.6) 40%,rgba(70,160,235,.8))}
+.s-lava{border:0;background:linear-gradient(180deg,#ffd54a,#ff7a18 35%,#c62d0e 70%,#3a0d05);box-shadow:0 0 8px #ff5a1f}
+.stick{position:relative}
+.pv{display:flex;gap:6px;align-items:flex-end;justify-content:center;height:46px}
+.pv .stick{width:11px;height:44px}
+.pt{height:34px;border-radius:8px;border:1px solid var(--bd);background:var(--bgi,var(--bg))}
 button{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:9px 14px;border-radius:10px;cursor:pointer}
 button.pri{background:var(--ac);color:#fff;border-color:var(--ac)}
 button:disabled{opacity:.45;cursor:default}
@@ -35,14 +60,16 @@ button:disabled{opacity:.45;cursor:default}
 .ava{display:flex;gap:4px;align-items:flex-end;height:40px}
 .ava i{width:8px;border-radius:4px;background:var(--s1);border:1px solid var(--s2)}
 small{opacity:.7}
+input{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:9px;border-radius:10px;flex:1;min-width:0;text-align:center}
 .seg{display:flex;gap:6px;margin:4px 0}.seg button{flex:1}.seg button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
 </style>
 </head>
 <body data-ui="light" data-sk="wood">
-<div class="top"><h1>🪵 Last Tick <small>by Qunsight</small></h1><b id="coins"></b></div>
+<div class="top"><h1>🪵 Last Tick <small>by Quansight</small></h1><b id="coins"></b></div>
 <div class="seg" id="langs"></div>
 <small data-i="rules"></small>
 <div class="card"><div class="seg" id="modes"></div><div class="seg" id="lvls"></div></div>
+<div class="card" id="onl" style="display:none"><div class="msg" id="onInfo"></div><div id="onBtns"><div class="seg" style="width:100%"><button id="mk" data-i="mk"></button></div><div class="seg" style="width:100%"><input id="cd" inputmode="numeric" maxlength="4"><button id="jn" data-i="jn"></button></div></div><div id="chatBox" style="display:none"><div id="chatLog" style="height:120px;overflow-y:auto;border:1px solid var(--bd);border-radius:10px;padding:6px;font-size:14px;margin-top:8px"></div><div class="seg"><input id="cm" maxlength="120" data-ph="msgPh"><button id="cs" data-i="send"></button></div></div></div>
 
 <div class="card">
   <div id="board"></div>
@@ -56,9 +83,10 @@ small{opacity:.7}
 
 <div class="card">
   <b data-i="card"></b>
+  <div id="acc" style="margin:8px 0"><div class="seg"><input id="nk" maxlength="16" data-ph="nick"><input id="pn" type="password" inputmode="numeric" maxlength="4" data-ph="pin"></div><div class="seg"><button id="lg" data-i="login"></button><button id="lo" data-i="logout"></button></div><small id="accMsg"></small></div>
   <div class="prof" style="margin-top:8px">
     <div class="ava"><i style="height:14px"></i><i style="height:22px"></i><i style="height:30px"></i><i style="height:38px"></i></div>
-    <div><div data-i="player"></div><small id="pstat"></small></div>
+    <div><div id="pname"></div><small id="pstat"></small></div>
   </div>
 </div>
 
@@ -69,28 +97,30 @@ small{opacity:.7}
 
 <script>
 const L={
-ru:{rules:"Забирай от 1 до всех палок из одного ряда. Кто заберёт последнюю палку — проиграл. На ход 30 секунд.",bot:"🤖 Против бота",pvp:"👥 Вдвоём",easy:"Легко",mid:"Средне",hard:"Сложно",take:"Забрать",again:"Новая игра",card:"Твоя карточка в лобби",player:"Игрок",shopSk:"Магазин палок",shopUi:"Магазин интерфейсов",my:"Твой ход",p1:"Ход: Игрок 1",p2:"Ход: Игрок 2",pl1:"Игрок 1",pl2:"Игрок 2",think:"Бот думает…",sel:"Выбрано",pick:"Выбрать",buy:"Купить за {N} 🪙",wins:"Победы",losses:"Поражения",lose:"Ты забрал последнюю — проигрыш. +2 🪙",win:"Бот забрал последнюю — победа! +{N} 🪙",pvpEnd:"{L} забрал последнюю и проиграл. Победил {W}!",sec:"с",sk_wood:"Дерево",sk_bamboo:"Бамбук",sk_neon:"Неон",sk_gold:"Золото",ui_light:"Светлый",ui_dark:"Тёмный",ui_sunset:"Закат",ui_neon:"Неон"},
-uz:{rules:"Bitta qatordan 1 tadan hammasigacha tayoqcha ol. Oxirgi tayoqchani olgan yutqazadi. Har bir yurishga 30 soniya.",bot:"🤖 Botga qarshi",pvp:"👥 Ikki kishilik",easy:"Oson",mid:"Oʻrtacha",hard:"Qiyin",take:"Olish",again:"Yangi oʻyin",card:"Lobbidagi kartochkang",player:"Oʻyinchi",shopSk:"Tayoqchalar doʻkoni",shopUi:"Interfeyslar doʻkoni",my:"Sening yurishing",p1:"Yurish: 1-oʻyinchi",p2:"Yurish: 2-oʻyinchi",pl1:"1-oʻyinchi",pl2:"2-oʻyinchi",think:"Bot oʻylayapti…",sel:"Tanlangan",pick:"Tanlash",buy:"{N} 🪙 ga olish",wins:"Gʻalabalar",losses:"Magʻlubiyatlar",lose:"Sen oxirgisini olding — yutqazding. +2 🪙",win:"Bot oxirgisini oldi — gʻalaba! +{N} 🪙",pvpEnd:"{L} oxirgisini olib yutqazdi. {W} gʻalaba qozondi!",sec:"s",sk_wood:"Yogʻoch",sk_bamboo:"Bambuk",sk_neon:"Neon",sk_gold:"Oltin",ui_light:"Yorugʻ",ui_dark:"Qorongʻu",ui_sunset:"Quyosh botishi",ui_neon:"Neon"},
-en:{rules:"Take 1 or more sticks from a single row. Whoever takes the last stick loses. 30 seconds per turn.",bot:"🤖 Vs bot",pvp:"👥 Two players",easy:"Easy",mid:"Medium",hard:"Hard",take:"Take",again:"New game",card:"Your lobby card",player:"Player",shopSk:"Stick shop",shopUi:"Interface shop",my:"Your turn",p1:"Turn: Player 1",p2:"Turn: Player 2",pl1:"Player 1",pl2:"Player 2",think:"Bot is thinking…",sel:"Selected",pick:"Select",buy:"Buy for {N} 🪙",wins:"Wins",losses:"Losses",lose:"You took the last stick — you lose. +2 🪙",win:"Bot took the last stick — you win! +{N} 🪙",pvpEnd:"{L} took the last stick and lost. {W} wins!",sec:"s",sk_wood:"Wood",sk_bamboo:"Bamboo",sk_neon:"Neon",sk_gold:"Gold",ui_light:"Light",ui_dark:"Dark",ui_sunset:"Sunset",ui_neon:"Neon"}
+ru:{rules:"Забирай от 1 до всех палок из одного ряда. Кто заберёт последнюю палку — проиграл. На ход 30 секунд.",bot:"🤖 Против бота",pvp:"👥 Вдвоём",easy:"Легко",mid:"Средне",hard:"Сложно",take:"Забрать",again:"Новая игра",card:"Твоя карточка в лобби",player:"Игрок",shopSk:"Магазин палок",shopUi:"Магазин интерфейсов",my:"Твой ход",p1:"Ход: Игрок 1",p2:"Ход: Игрок 2",pl1:"Игрок 1",pl2:"Игрок 2",think:"Бот думает…",sel:"Выбрано",pick:"Выбрать",buy:"Купить за {N} 🪙",wins:"Победы",losses:"Поражения",lose:"Ты забрал последнюю — проигрыш. +{N} 🪙",win:"Бот забрал последнюю — победа! +{N} 🪙",pvpEnd:"{L} забрал последнюю и проиграл. Победил {W}!",sec:"с",online:"🌐 Онлайн",nick:"Ник",pin:"PIN (4 цифры)",login:"Войти / создать",logout:"Выйти",badNick:"Ник: 3–16 символов, буквы или цифры",badPin:"PIN — ровно 4 цифры",wrongPin:"Неверный PIN",loginOk:"Готово! Прогресс сохраняется в аккаунте",noDb:"Ник сохранён на этом телефоне (аккаунты пока недоступны)",msgPh:"Сообщение",send:"Отправить",mk:"Создать комнату",jn:"Войти",code:"Код",onHint:"Создай комнату или введи код друга",waiting:"Код комнаты: {C}. Ждём соперника…",inRoom:"Комната {C} · {A} — {B}",notFound:"Комната не найдена",full:"Комната занята",opp:"Ход соперника",onLose:"Ты забрал последнюю — проигрыш.",onWin:"Соперник забрал последнюю — победа!",offline:"Онлайн пока недоступен",sk_wood:"Дерево",sk_candy:"Конфета",sk_bbam:"Чёрный бамбук",sk_ice:"Лёд",sk_lava:"Лава",ui_forest:"Бамбуковый лес",ui_ocean:"Океан",ui_sakura:"Сакура",ui_space:"Космос",sk_bamboo:"Бамбук",sk_neon:"Неон",sk_gold:"Золото",ui_light:"Светлый",ui_dark:"Тёмный",ui_sunset:"Закат",ui_neon:"Неон"},
+uz:{rules:"Bitta qatordan 1 tadan hammasigacha tayoqcha ol. Oxirgi tayoqchani olgan yutqazadi. Har bir yurishga 30 soniya.",bot:"🤖 Botga qarshi",pvp:"👥 Ikki kishilik",easy:"Oson",mid:"Oʻrtacha",hard:"Qiyin",take:"Olish",again:"Yangi oʻyin",card:"Lobbidagi kartochkang",player:"Oʻyinchi",shopSk:"Tayoqchalar doʻkoni",shopUi:"Interfeyslar doʻkoni",my:"Sening yurishing",p1:"Yurish: 1-oʻyinchi",p2:"Yurish: 2-oʻyinchi",pl1:"1-oʻyinchi",pl2:"2-oʻyinchi",think:"Bot oʻylayapti…",sel:"Tanlangan",pick:"Tanlash",buy:"{N} 🪙 ga olish",wins:"Gʻalabalar",losses:"Magʻlubiyatlar",lose:"Sen oxirgisini olding — yutqazding. +{N} 🪙",win:"Bot oxirgisini oldi — gʻalaba! +{N} 🪙",pvpEnd:"{L} oxirgisini olib yutqazdi. {W} gʻalaba qozondi!",sec:"s",online:"🌐 Onlayn",nick:"Nik",pin:"PIN (4 raqam)",login:"Kirish / yaratish",logout:"Chiqish",badNick:"Nik: 3–16 belgi, harf yoki raqam",badPin:"PIN — aynan 4 raqam",wrongPin:"PIN notoʻgʻri",loginOk:"Tayyor! Progress akkauntda saqlanadi",noDb:"Nik shu telefonda saqlandi (akkauntlar hozircha mavjud emas)",msgPh:"Xabar",send:"Yuborish",mk:"Xona yaratish",jn:"Kirish",code:"Kod",onHint:"Xona yarat yoki doʻstingning kodini kiriting",waiting:"Xona kodi: {C}. Raqib kutilmoqda…",inRoom:"Xona {C} · {A} — {B}",notFound:"Xona topilmadi",full:"Xona band",opp:"Raqib yurishi",onLose:"Sen oxirgisini olding — yutqazding.",onWin:"Raqib oxirgisini oldi — gʻalaba!",offline:"Onlayn hozircha mavjud emas",sk_wood:"Yogʻoch",sk_candy:"Konfet",sk_bbam:"Qora bambuk",sk_ice:"Muz",sk_lava:"Lava",ui_forest:"Bambuk oʻrmoni",ui_ocean:"Okean",ui_sakura:"Sakura",ui_space:"Kosmos",sk_bamboo:"Bambuk",sk_neon:"Neon",sk_gold:"Oltin",ui_light:"Yorugʻ",ui_dark:"Qorongʻu",ui_sunset:"Quyosh botishi",ui_neon:"Neon"},
+en:{rules:"Take 1 or more sticks from a single row. Whoever takes the last stick loses. 30 seconds per turn.",bot:"🤖 Vs bot",pvp:"👥 Two players",easy:"Easy",mid:"Medium",hard:"Hard",take:"Take",again:"New game",card:"Your lobby card",player:"Player",shopSk:"Stick shop",shopUi:"Interface shop",my:"Your turn",p1:"Turn: Player 1",p2:"Turn: Player 2",pl1:"Player 1",pl2:"Player 2",think:"Bot is thinking…",sel:"Selected",pick:"Select",buy:"Buy for {N} 🪙",wins:"Wins",losses:"Losses",lose:"You took the last stick — you lose. +{N} 🪙",win:"Bot took the last stick — you win! +{N} 🪙",pvpEnd:"{L} took the last stick and lost. {W} wins!",sec:"s",online:"🌐 Online",nick:"Nickname",pin:"PIN (4 digits)",login:"Sign in / create",logout:"Sign out",badNick:"Nickname: 3–16 letters or digits",badPin:"PIN must be exactly 4 digits",wrongPin:"Wrong PIN",loginOk:"Done! Progress is saved to your account",noDb:"Nickname saved on this phone (accounts not available yet)",msgPh:"Message",send:"Send",mk:"Create room",jn:"Join",code:"Code",onHint:"Create a room or enter a friend’s code",waiting:"Room code: {C}. Waiting for opponent…",inRoom:"Room {C} · {A} — {B}",notFound:"Room not found",full:"Room is full",opp:"Opponent’s turn",onLose:"You took the last stick — you lose.",onWin:"Opponent took the last stick — you win!",offline:"Online is not available yet",sk_wood:"Wood",sk_candy:"Candy",sk_bbam:"Black bamboo",sk_ice:"Ice",sk_lava:"Lava",ui_forest:"Bamboo forest",ui_ocean:"Ocean",ui_sakura:"Sakura",ui_space:"Space",sk_bamboo:"Bamboo",sk_neon:"Neon",sk_gold:"Gold",ui_light:"Light",ui_dark:"Dark",ui_sunset:"Sunset",ui_neon:"Neon"}
 };
-const SK=[["wood",0],["bamboo",30],["neon",60],["gold",120]];
-const UI=[["light",0],["dark",40],["sunset",70],["neon",100]];
+const SK=[["wood",0],["bamboo",30],["candy",50],["neon",60],["bbam",70],["ice",90],["gold",120],["lava",150]];
+const UI=[["light",0],["dark",40],["forest",60],["sunset",70],["ocean",80],["sakura",90],["neon",100],["space",130]];
 let S={coins:0,wins:0,losses:0,own:["sk:wood","ui:light"],sk:"wood",ui:"light",lang:null};
 try{const r=localStorage.getItem("lasttick");if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
 if(!S.lang){const n=(navigator.language||"en").slice(0,2);S.lang=n==="ru"?"ru":n==="uz"?"uz":"en"}
-const save=()=>{try{localStorage.setItem("lasttick",JSON.stringify(S))}catch(e){}};
+const save=()=>{try{localStorage.setItem("lasttick",JSON.stringify(S))}catch(e){}
+  if(S.acc&&DB){clearTimeout(syncT);syncT=setTimeout(()=>fb("PUT","players/"+S.acc+"/data",prog()).catch(()=>{}),800)}};
 const t=(k,o)=>{let s=L[S.lang][k];if(o)for(const x in o)s=s.replace("{"+x+"}",o[x]);return s};
 const $=id=>document.getElementById(id);
-let rows,sel,turn,over,mode="bot",lvl="mid",tl=30,tm=null,msgFn=()=>"";
+let rows,sel,turn,over,mode="bot",lvl="mid",tl=30,tm=null,msgFn=()=>"",starter="me",botT=null,code=null,role=0,mv=0,pollT=null,live=false,opp="",chatSeen="",accFn=()=>"",syncT=null,infoFn=()=>"";
+const DB="https://quansight-last-tick-default-rtdb.firebaseio.com"; // адрес Firebase Realtime Database, например https://last-tick-default-rtdb.firebaseio.com
 const can=()=>!over&&(mode==="pvp"||turn==="me");
 const msg=f=>{msgFn=f;$("msg").textContent=f()};
-const turnMsg=()=>mode==="pvp"?t(turn==="me"?"p1":"p2"):t("my");
+const turnMsg=()=>mode==="pvp"?t(turn==="me"?"p1":"p2"):mode==="online"?t(turn==="me"?"my":"opp"):t("my");
 
 function stopT(){clearInterval(tm);tm=null;$("timer").textContent=""}
 function showT(){const e=$("timer");e.textContent="⏱ "+tl+" "+t("sec");e.className="msg"+(tl<=10?" low":"")}
 function startT(){clearInterval(tm);tl=30;showT();tm=setInterval(()=>{tl--;showT();if(tl<=0){clearInterval(tm);timeout()}},1000)}
 function timeout(){
-  if(over)return;
+  if(over||(mode==="online"&&turn!=="me"))return;
   let r=sel.r,n=sel.n;
   if(r<0){const ne=rows.map((x,i)=>x>0?i:-1).filter(i=>i>=0);r=ne[Math.floor(Math.random()*ne.length)];n=1+Math.floor(Math.random()*rows[r])}
   move(turn,r,n);
@@ -101,12 +131,17 @@ function seg(el,items,cur,fn){
 }
 function ctl(){
   seg($("langs"),[["ru","RU"],["uz","UZ"],["en","EN"]],S.lang,k=>{S.lang=k;save();draw()});
-  seg($("modes"),[["bot",t("bot")],["pvp",t("pvp")]],mode,k=>{mode=k;start()});
+  seg($("modes"),[["bot",t("bot")],["pvp",t("pvp")],["online",t("online")]],mode,k=>{leaveRoom();mode=k;if(k==="online")goOnline();else start()});
   seg($("lvls"),[["easy",t("easy")],["mid",t("mid")],["hard",t("hard")]],lvl,k=>{lvl=k;start()});
   $("lvls").style.display=mode==="bot"?"flex":"none";
+  $("onl").style.display=mode==="online"?"block":"none";$("onBtns").style.display=code?"none":"block";$("onInfo").textContent=infoFn();$("cd").placeholder=t("code");document.querySelectorAll("[data-ph]").forEach(e=>e.placeholder=t(e.dataset.ph));$("chatBox").style.display=code?"block":"none";$("pname").textContent=S.nick||t("player");$("lo").style.display=S.nick?"":"none";$("accMsg").textContent=accFn();if(!$("nk").value&&S.nick)$("nk").value=S.nick;
 }
 
-function start(){rows=[1,2,3,4,5];sel={r:-1,n:0};turn="me";over=false;msg(turnMsg);draw();startT()}
+function start(){
+  if(mode==="online"){leaveRoom();goOnline();return}
+  clearTimeout(botT);rows=[1,2,3,4,5];sel={r:-1,n:0};turn=starter;over=false;msg(turnMsg);draw();
+  if(turn==="bot"&&mode==="bot"){msg(()=>t("think"));stopT();botT=setTimeout(bot,700)}else startT();
+}
 function draw(){
   document.body.dataset.ui=S.ui;document.body.dataset.sk=S.sk;document.documentElement.lang=S.lang;
   document.querySelectorAll("[data-i]").forEach(e=>e.textContent=t(e.dataset.i));
@@ -117,7 +152,7 @@ function draw(){
   rows.forEach((n,i)=>{
     const d=document.createElement("div");d.className="row"+(sel.r===i?" sel":"");
     for(let k=0;k<n;k++){
-      const s=document.createElement("div");s.className="stick"+(sel.r===i&&k>=n-sel.n?" pick":"");
+      const s=document.createElement("div");s.className="stick s-"+S.sk+(sel.r===i&&k>=n-sel.n?" pick":"");
       s.onclick=e=>{e.stopPropagation();if(!can())return;pick(i,n-k)};
       d.appendChild(s);
     }
@@ -130,22 +165,95 @@ function draw(){
 function pick(i,n){sel={r:i,n:n};draw()}
 function total(){return rows.reduce((a,b)=>a+b,0)}
 function finish(loserIsMe){
-  over=true;stopT();
+  over=true;stopT();starter=starter==="me"?"bot":"me";
   if(mode==="pvp"){
     const l=t(loserIsMe?"pl1":"pl2"),w=t(loserIsMe?"pl2":"pl1");
     msg(()=>t("pvpEnd",{L:l,W:w}));draw();return;
   }
-  if(loserIsMe){S.losses++;S.coins+=2;msg(()=>t("lose"))}
-  else{const g={easy:5,mid:10,hard:20}[lvl];S.wins++;S.coins+=g;msg(()=>t("win",{N:g}))}
+  if(loserIsMe){const c={easy:1,mid:1,hard:2}[lvl];S.losses++;S.coins+=c;msg(()=>t("lose",{N:c}))}
+  else{const w={easy:[3,4],mid:[6,7],hard:[9,10]}[lvl];const g=w[0]+Math.floor(Math.random()*2);S.wins++;S.coins+=g;msg(()=>t("win",{N:g}))}
   save();draw();
 }
 function move(who,r,n){
+  if(mode==="online")return onlineMove(r,n);
   rows[r]-=n;sel={r:-1,n:0};
   if(total()===0){draw();finish(who==="me");return}
   turn=who==="me"?"bot":"me";draw();
-  if(turn==="bot"&&mode==="bot"){msg(()=>t("think"));stopT();setTimeout(bot,700)}
+  if(turn==="bot"&&mode==="bot"){msg(()=>t("think"));stopT();botT=setTimeout(bot,700)}
   else{msg(turnMsg);startT()}
 }
+async function fb(m,p,b){const r=await fetch(DB+"/"+p+".json",{method:m,body:b===undefined?undefined:JSON.stringify(b)});return r.json()}
+function leaveRoom(){clearInterval(pollT);pollT=null;if(code&&DB)fb("DELETE","rooms/"+code).catch(()=>{});code=null;live=false;chatSeen="";opp="";$("chatLog").innerHTML="";infoFn=()=>""}
+function goOnline(){clearTimeout(botT);stopT();rows=[1,2,3,4,5];sel={r:-1,n:0};over=true;msg(()=>t("onHint"));draw()}
+function fixRows(s){return Array.from({length:5},(_,i)=>(s.rows||[])[i]||0)}
+async function mkRoom(){
+  if(!DB){msg(()=>t("offline"));return}
+  const c=String(1000+Math.floor(Math.random()*9000));
+  try{await fb("PUT","rooms/"+c,{rows:[1,2,3,4,5],turn:0,mv:0,joined:false,over:false,loser:-1,names:[myName(),""]})}catch(e){msg(()=>t("offline"));return}
+  code=c;role=0;mv=0;live=false;infoFn=()=>t("waiting",{C:c});msg(()=>"");draw();pollT=setInterval(poll,1000);
+}
+async function joinRoom(){
+  if(!DB){msg(()=>t("offline"));return}
+  const c=$("cd").value.trim();let s;
+  try{s=await fb("GET","rooms/"+c)}catch(e){msg(()=>t("offline"));return}
+  if(!s){msg(()=>t("notFound"));return}
+  if(s.joined){msg(()=>t("full"));return}
+  try{await fb("PATCH","rooms/"+c,{joined:true,"names/1":myName()})}catch(e){msg(()=>t("offline"));return}
+  code=c;role=1;live=true;opp=(s.names||[])[0]||"…";beginOnline(s);pollT=setInterval(poll,1000);
+}
+function beginOnline(s){rows=fixRows(s);mv=s.mv||0;over=false;sel={r:-1,n:0};turn=s.turn===role?"me":"bot";infoFn=()=>t("inRoom",{C:code,A:myName(),B:opp});msg(turnMsg);draw();startT()}
+async function poll(){
+  if(!code)return;
+  let s;try{s=await fb("GET","rooms/"+code)}catch(e){return}
+  if(!s)return;
+  opp=(s.names||[])[1-role]||"…";renderChat(s);$("onInfo").textContent=infoFn();
+  if(!live){if(s.joined){live=true;beginOnline(s)}return}
+  if((s.mv||0)>mv){
+    mv=s.mv;rows=fixRows(s);sel={r:-1,n:0};
+    if(s.over){over=true;stopT();msg(()=>t(s.loser===role?"onLose":"onWin"));draw()}
+    else{turn=s.turn===role?"me":"bot";msg(turnMsg);draw();startT()}
+  }
+}
+function onlineMove(r,n){
+  rows[r]-=n;sel={r:-1,n:0};mv++;
+  const last=total()===0;
+  if(last){over=true;stopT();msg(()=>t("onLose"))}
+  else{turn="bot";msg(turnMsg);startT()}
+  draw();
+  fb("PATCH","rooms/"+code,{rows,turn:1-role,mv,joined:true,over:last,loser:last?role:-1}).catch(()=>{});
+}
+$("mk").onclick=mkRoom;$("jn").onclick=joinRoom;
+const NK=/^[\p{L}\p{N}_-]{3,16}$/u;
+const myName=()=>S.nick||t("player");
+function prog(){return{coins:S.coins,wins:S.wins,losses:S.losses,own:S.own,sk:S.sk,ui:S.ui}}
+async function hash(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("lt:"+s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,"0")).join("")}
+async function login(){
+  const n=$("nk").value.trim(),p=$("pn").value.trim();
+  if(!NK.test(n)){accFn=()=>t("badNick");draw();return}
+  if(!DB){S.nick=n;save();accFn=()=>t("noDb");draw();return}
+  if(!/^\d{4}$/.test(p)){accFn=()=>t("badPin");draw();return}
+  const key=n.toLowerCase();
+  try{
+    const h=await hash(p),u=await fb("GET","players/"+key);
+    if(!u){await fb("PUT","players/"+key,{pin:h,data:prog()})}
+    else if(u.pin!==h){accFn=()=>t("wrongPin");draw();return}
+    else if(u.data){const d=u.data;S.coins=d.coins||0;S.wins=d.wins||0;S.losses=d.losses||0;S.own=d.own||["sk:wood","ui:light"];S.sk=d.sk||"wood";S.ui=d.ui||"light"}
+    S.nick=n;S.acc=key;save();$("pn").value="";accFn=()=>t("loginOk");draw();
+  }catch(e){accFn=()=>t("offline");draw()}
+}
+function logout(){S.nick="";S.acc=null;save();$("nk").value="";accFn=()=>"";draw()}
+async function sendChat(){
+  const m=$("cm").value.trim();if(!m||!code||!DB)return;$("cm").value="";
+  fb("POST","rooms/"+code+"/chat",{n:myName(),m:m.slice(0,120),ts:Date.now()}).catch(()=>{});
+}
+function renderChat(s){
+  const c=s.chat||{},ks=Object.keys(c).sort(),sig=ks.join(",");
+  if(sig===chatSeen)return;chatSeen=sig;
+  const log=$("chatLog");log.innerHTML="";
+  ks.slice(-50).forEach(k=>{const d=document.createElement("div"),b=document.createElement("b");b.textContent=(c[k].n||"?")+": ";d.appendChild(b);d.appendChild(document.createTextNode(c[k].m||""));log.appendChild(d)});
+  log.scrollTop=log.scrollHeight;
+}
+$("lg").onclick=login;$("lo").onclick=logout;$("cs").onclick=sendChat;$("cm").onkeydown=e=>{if(e.key==="Enter")sendChat()};
 $("take").onclick=()=>{if(sel.r>=0&&sel.n>0)move(turn,sel.r,sel.n)};
 $("again").onclick=start;
 
@@ -176,7 +284,7 @@ function shop(){
       b.textContent=on?t("sel"):owned?t("pick"):t("buy",{N:price});
       b.disabled=on||(!owned&&S.coins<price);
       b.onclick=()=>{if(!owned){S.coins-=price;S.own.push(k)}S[key]=id;save();draw()};
-      d.innerHTML="<b>"+t(pre+"_"+id)+"</b>";d.appendChild(b);el.appendChild(d);
+      d.innerHTML=(pre==="sk"?'<div class="pv"><div class="stick s-'+id+'"></div><div class="stick s-'+id+'"></div><div class="stick s-'+id+'"></div></div>':'<div class="pt" data-ui="'+id+'"></div>')+"<b>"+t(pre+"_"+id)+"</b>";d.appendChild(b);el.appendChild(d);
     });
   };
   mk($("shopSk"),SK,"sk","sk");mk($("shopUi"),UI,"ui","ui");
