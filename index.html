@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Last Tick</title>
+<meta property="og:title" content="Last Tick">
+<meta property="og:description" content="Не бери последнюю палку! Игра для двоих · Don’t take the last stick">
+<meta property="og:image" content="https://abrornishonbaev.github.io/last-tick/preview.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f4f1ea;--card:#fff;--tx:#222;--ac:#c0392b;--bd:#ddd}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -65,11 +71,12 @@ input{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(-
 </style>
 </head>
 <body data-ui="light" data-sk="wood">
-<div class="top"><h1>🪵 Last Tick <small>by Quansight</small></h1><b id="coins"></b></div>
+<div class="top"><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span id="who"></span><h1>🪵 Last Tick <small>by Quansight</small></h1></div><b id="coins"></b></div>
 <div class="seg" id="langs"></div>
 <small data-i="rules"></small>
+<div class="card" id="inv" style="display:none"><div class="msg" id="invTxt"></div><div class="seg"><button class="pri" id="invYes" data-i="accept"></button><button id="invNo" data-i="decline"></button></div></div>
 <div class="card"><div class="seg" id="modes"></div><div class="seg" id="lvls"></div></div>
-<div class="card" id="onl" style="display:none"><div class="msg" id="onInfo"></div><div id="onBtns"><div class="seg" style="width:100%"><button id="mk" data-i="mk"></button></div><div class="seg" style="width:100%"><input id="cd" inputmode="numeric" maxlength="4"><button id="jn" data-i="jn"></button></div></div><div id="chatBox" style="display:none"><div id="chatLog" style="height:120px;overflow-y:auto;border:1px solid var(--bd);border-radius:10px;padding:6px;font-size:14px;margin-top:8px"></div><div class="seg"><input id="cm" maxlength="120" data-ph="msgPh"><button id="cs" data-i="send"></button></div></div></div>
+<div class="card" id="onl" style="display:none"><div class="msg" id="onInfo"></div><div class="seg"><button id="sh" data-i="share" style="display:none"></button></div><div id="onBtns"><div class="seg" style="width:100%"><button id="mk" data-i="mk"></button></div><div class="seg" style="width:100%"><input id="cd" inputmode="numeric" maxlength="4"><button id="jn" data-i="jn"></button></div></div><div id="pplBox" style="margin-top:10px"><b data-i="whoOn"></b><div id="ppl" style="margin-top:4px"></div></div><div id="chatBox" style="display:none"><div id="chatLog" style="height:120px;overflow-y:auto;border:1px solid var(--bd);border-radius:10px;padding:6px;font-size:14px;margin-top:8px"></div><div class="seg"><input id="cm" maxlength="120" data-ph="msgPh"><button id="cs" data-i="send"></button></div></div></div>
 
 <div class="card">
   <div id="board"></div>
@@ -83,7 +90,7 @@ input{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(-
 
 <div class="card">
   <b data-i="card"></b>
-  <div id="acc" style="margin:8px 0"><div class="seg"><input id="nk" maxlength="16" data-ph="nick"><input id="pn" type="password" inputmode="numeric" maxlength="4" data-ph="pin"></div><div class="seg"><button id="lg" data-i="login"></button><button id="lo" data-i="logout"></button></div><small id="accMsg"></small></div>
+  <div id="acc" style="margin:8px 0"><div style="display:none"><input id="nk"><input id="pn"><button id="lo"></button></div><div class="seg"><button id="lg" data-i="login"></button></div><small id="accMsg"></small></div>
   <div class="prof" style="margin-top:8px">
     <div class="ava"><i style="height:14px"></i><i style="height:22px"></i><i style="height:30px"></i><i style="height:38px"></i></div>
     <div><div id="pname"></div><small id="pstat"></small></div>
@@ -97,9 +104,9 @@ input{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(-
 
 <script>
 const L={
-ru:{rules:"Забирай от 1 до всех палок из одного ряда. Кто заберёт последнюю палку — проиграл. На ход 30 секунд.",bot:"🤖 Против бота",pvp:"👥 Вдвоём",easy:"Легко",mid:"Средне",hard:"Сложно",take:"Забрать",again:"Новая игра",card:"Твоя карточка в лобби",player:"Игрок",shopSk:"Магазин палок",shopUi:"Магазин интерфейсов",my:"Твой ход",p1:"Ход: Игрок 1",p2:"Ход: Игрок 2",pl1:"Игрок 1",pl2:"Игрок 2",think:"Бот думает…",sel:"Выбрано",pick:"Выбрать",buy:"Купить за {N} 🪙",wins:"Победы",losses:"Поражения",lose:"Ты забрал последнюю — проигрыш. +{N} 🪙",win:"Бот забрал последнюю — победа! +{N} 🪙",pvpEnd:"{L} забрал последнюю и проиграл. Победил {W}!",sec:"с",online:"🌐 Онлайн",nick:"Ник",pin:"PIN (4 цифры)",login:"Войти / создать",logout:"Выйти",badNick:"Ник: 3–16 символов, буквы или цифры",badPin:"PIN — ровно 4 цифры",wrongPin:"Неверный PIN",loginOk:"Готово! Прогресс сохраняется в аккаунте",noDb:"Ник сохранён на этом телефоне (аккаунты пока недоступны)",msgPh:"Сообщение",send:"Отправить",mk:"Создать комнату",jn:"Войти",code:"Код",onHint:"Создай комнату или введи код друга",waiting:"Код комнаты: {C}. Ждём соперника…",inRoom:"Комната {C} · {A} — {B}",notFound:"Комната не найдена",full:"Комната занята",opp:"Ход соперника",onLose:"Ты забрал последнюю — проигрыш.",onWin:"Соперник забрал последнюю — победа!",offline:"Онлайн пока недоступен",sk_wood:"Дерево",sk_candy:"Конфета",sk_bbam:"Чёрный бамбук",sk_ice:"Лёд",sk_lava:"Лава",ui_forest:"Бамбуковый лес",ui_ocean:"Океан",ui_sakura:"Сакура",ui_space:"Космос",sk_bamboo:"Бамбук",sk_neon:"Неон",sk_gold:"Золото",ui_light:"Светлый",ui_dark:"Тёмный",ui_sunset:"Закат",ui_neon:"Неон"},
-uz:{rules:"Bitta qatordan 1 tadan hammasigacha tayoqcha ol. Oxirgi tayoqchani olgan yutqazadi. Har bir yurishga 30 soniya.",bot:"🤖 Botga qarshi",pvp:"👥 Ikki kishilik",easy:"Oson",mid:"Oʻrtacha",hard:"Qiyin",take:"Olish",again:"Yangi oʻyin",card:"Lobbidagi kartochkang",player:"Oʻyinchi",shopSk:"Tayoqchalar doʻkoni",shopUi:"Interfeyslar doʻkoni",my:"Sening yurishing",p1:"Yurish: 1-oʻyinchi",p2:"Yurish: 2-oʻyinchi",pl1:"1-oʻyinchi",pl2:"2-oʻyinchi",think:"Bot oʻylayapti…",sel:"Tanlangan",pick:"Tanlash",buy:"{N} 🪙 ga olish",wins:"Gʻalabalar",losses:"Magʻlubiyatlar",lose:"Sen oxirgisini olding — yutqazding. +{N} 🪙",win:"Bot oxirgisini oldi — gʻalaba! +{N} 🪙",pvpEnd:"{L} oxirgisini olib yutqazdi. {W} gʻalaba qozondi!",sec:"s",online:"🌐 Onlayn",nick:"Nik",pin:"PIN (4 raqam)",login:"Kirish / yaratish",logout:"Chiqish",badNick:"Nik: 3–16 belgi, harf yoki raqam",badPin:"PIN — aynan 4 raqam",wrongPin:"PIN notoʻgʻri",loginOk:"Tayyor! Progress akkauntda saqlanadi",noDb:"Nik shu telefonda saqlandi (akkauntlar hozircha mavjud emas)",msgPh:"Xabar",send:"Yuborish",mk:"Xona yaratish",jn:"Kirish",code:"Kod",onHint:"Xona yarat yoki doʻstingning kodini kiriting",waiting:"Xona kodi: {C}. Raqib kutilmoqda…",inRoom:"Xona {C} · {A} — {B}",notFound:"Xona topilmadi",full:"Xona band",opp:"Raqib yurishi",onLose:"Sen oxirgisini olding — yutqazding.",onWin:"Raqib oxirgisini oldi — gʻalaba!",offline:"Onlayn hozircha mavjud emas",sk_wood:"Yogʻoch",sk_candy:"Konfet",sk_bbam:"Qora bambuk",sk_ice:"Muz",sk_lava:"Lava",ui_forest:"Bambuk oʻrmoni",ui_ocean:"Okean",ui_sakura:"Sakura",ui_space:"Kosmos",sk_bamboo:"Bambuk",sk_neon:"Neon",sk_gold:"Oltin",ui_light:"Yorugʻ",ui_dark:"Qorongʻu",ui_sunset:"Quyosh botishi",ui_neon:"Neon"},
-en:{rules:"Take 1 or more sticks from a single row. Whoever takes the last stick loses. 30 seconds per turn.",bot:"🤖 Vs bot",pvp:"👥 Two players",easy:"Easy",mid:"Medium",hard:"Hard",take:"Take",again:"New game",card:"Your lobby card",player:"Player",shopSk:"Stick shop",shopUi:"Interface shop",my:"Your turn",p1:"Turn: Player 1",p2:"Turn: Player 2",pl1:"Player 1",pl2:"Player 2",think:"Bot is thinking…",sel:"Selected",pick:"Select",buy:"Buy for {N} 🪙",wins:"Wins",losses:"Losses",lose:"You took the last stick — you lose. +{N} 🪙",win:"Bot took the last stick — you win! +{N} 🪙",pvpEnd:"{L} took the last stick and lost. {W} wins!",sec:"s",online:"🌐 Online",nick:"Nickname",pin:"PIN (4 digits)",login:"Sign in / create",logout:"Sign out",badNick:"Nickname: 3–16 letters or digits",badPin:"PIN must be exactly 4 digits",wrongPin:"Wrong PIN",loginOk:"Done! Progress is saved to your account",noDb:"Nickname saved on this phone (accounts not available yet)",msgPh:"Message",send:"Send",mk:"Create room",jn:"Join",code:"Code",onHint:"Create a room or enter a friend’s code",waiting:"Room code: {C}. Waiting for opponent…",inRoom:"Room {C} · {A} — {B}",notFound:"Room not found",full:"Room is full",opp:"Opponent’s turn",onLose:"You took the last stick — you lose.",onWin:"Opponent took the last stick — you win!",offline:"Online is not available yet",sk_wood:"Wood",sk_candy:"Candy",sk_bbam:"Black bamboo",sk_ice:"Ice",sk_lava:"Lava",ui_forest:"Bamboo forest",ui_ocean:"Ocean",ui_sakura:"Sakura",ui_space:"Space",sk_bamboo:"Bamboo",sk_neon:"Neon",sk_gold:"Gold",ui_light:"Light",ui_dark:"Dark",ui_sunset:"Sunset",ui_neon:"Neon"}
+ru:{rules:"Забирай от 1 до всех палок из одного ряда. Кто заберёт последнюю палку — проиграл. На ход 30 секунд.",bot:"🤖 Против бота",pvp:"👥 Вдвоём",easy:"Легко",mid:"Средне",hard:"Сложно",take:"Забрать",again:"Новая игра",card:"Твоя карточка в лобби",player:"Игрок",shopSk:"Магазин палок",shopUi:"Магазин интерфейсов",my:"Твой ход",p1:"Ход: Игрок 1",p2:"Ход: Игрок 2",pl1:"Игрок 1",pl2:"Игрок 2",think:"Бот думает…",sel:"Выбрано",pick:"Выбрать",buy:"Купить за {N} 🪙",wins:"Победы",losses:"Поражения",lose:"Ты забрал последнюю — проигрыш. +{N} 🪙",win:"Бот забрал последнюю — победа! +{N} 🪙",pvpEnd:"{L} забрал последнюю и проиграл. Победил {W}!",sec:"с",online:"🌐 Онлайн",nick:"Ник",whoOn:"Сейчас онлайн",nobody:"Пока никого. Позови друга по ссылке!",needLogin:"Войди в аккаунт, чтобы видеть, кто онлайн",invite:"Позвать",invites:"{N} зовёт тебя играть",accept:"Принять",decline:"Отклонить",share:"Пригласить в Telegram",shareTxt:"Сыграй со мной в Last Tick!",invSent:"Приглашение отправлено: {N}",pin:"PIN (4 цифры)",login:"Войти через Telegram",logout:"Выйти",badNick:"Ник: 3–16 символов, буквы или цифры",badPin:"PIN — ровно 4 цифры",wrongPin:"Неверный PIN",loginOk:"Готово! Прогресс сохраняется в аккаунте",noDb:"Ник сохранён на этом телефоне (аккаунты пока недоступны)",msgPh:"Сообщение",send:"Отправить",mk:"Создать комнату",jn:"Войти",code:"Код",onHint:"Создай комнату или введи код друга",waiting:"Код комнаты: {C}. Ждём соперника…",inRoom:"Комната {C} · {A} — {B}",notFound:"Комната не найдена",full:"Комната занята",opp:"Ход соперника",onLose:"Ты забрал последнюю — проигрыш.",onWin:"Соперник забрал последнюю — победа!",offline:"Онлайн пока недоступен",sk_wood:"Дерево",sk_candy:"Конфета",sk_bbam:"Чёрный бамбук",sk_ice:"Лёд",sk_lava:"Лава",ui_forest:"Бамбуковый лес",ui_ocean:"Океан",ui_sakura:"Сакура",ui_space:"Космос",sk_bamboo:"Бамбук",sk_neon:"Неон",sk_gold:"Золото",ui_light:"Светлый",ui_dark:"Тёмный",ui_sunset:"Закат",ui_neon:"Неон"},
+uz:{rules:"Bitta qatordan 1 tadan hammasigacha tayoqcha ol. Oxirgi tayoqchani olgan yutqazadi. Har bir yurishga 30 soniya.",bot:"🤖 Botga qarshi",pvp:"👥 Ikki kishilik",easy:"Oson",mid:"Oʻrtacha",hard:"Qiyin",take:"Olish",again:"Yangi oʻyin",card:"Lobbidagi kartochkang",player:"Oʻyinchi",shopSk:"Tayoqchalar doʻkoni",shopUi:"Interfeyslar doʻkoni",my:"Sening yurishing",p1:"Yurish: 1-oʻyinchi",p2:"Yurish: 2-oʻyinchi",pl1:"1-oʻyinchi",pl2:"2-oʻyinchi",think:"Bot oʻylayapti…",sel:"Tanlangan",pick:"Tanlash",buy:"{N} 🪙 ga olish",wins:"Gʻalabalar",losses:"Magʻlubiyatlar",lose:"Sen oxirgisini olding — yutqazding. +{N} 🪙",win:"Bot oxirgisini oldi — gʻalaba! +{N} 🪙",pvpEnd:"{L} oxirgisini olib yutqazdi. {W} gʻalaba qozondi!",sec:"s",online:"🌐 Onlayn",nick:"Nik",whoOn:"Hozir onlayn",nobody:"Hozircha hech kim yoʻq. Doʻstingni havola orqali chaqir!",needLogin:"Kim onlaynligini koʻrish uchun akkauntga kir",invite:"Chaqirish",invites:"{N} seni oʻynashga chaqiryapti",accept:"Qabul qilish",decline:"Rad etish",share:"Telegramga taklif",shareTxt:"Men bilan Last Tick oʻyna!",invSent:"Taklif yuborildi: {N}",pin:"PIN (4 raqam)",login:"Telegram orqali kirish",logout:"Chiqish",badNick:"Nik: 3–16 belgi, harf yoki raqam",badPin:"PIN — aynan 4 raqam",wrongPin:"PIN notoʻgʻri",loginOk:"Tayyor! Progress akkauntda saqlanadi",noDb:"Nik shu telefonda saqlandi (akkauntlar hozircha mavjud emas)",msgPh:"Xabar",send:"Yuborish",mk:"Xona yaratish",jn:"Kirish",code:"Kod",onHint:"Xona yarat yoki doʻstingning kodini kiriting",waiting:"Xona kodi: {C}. Raqib kutilmoqda…",inRoom:"Xona {C} · {A} — {B}",notFound:"Xona topilmadi",full:"Xona band",opp:"Raqib yurishi",onLose:"Sen oxirgisini olding — yutqazding.",onWin:"Raqib oxirgisini oldi — gʻalaba!",offline:"Onlayn hozircha mavjud emas",sk_wood:"Yogʻoch",sk_candy:"Konfet",sk_bbam:"Qora bambuk",sk_ice:"Muz",sk_lava:"Lava",ui_forest:"Bambuk oʻrmoni",ui_ocean:"Okean",ui_sakura:"Sakura",ui_space:"Kosmos",sk_bamboo:"Bambuk",sk_neon:"Neon",sk_gold:"Oltin",ui_light:"Yorugʻ",ui_dark:"Qorongʻu",ui_sunset:"Quyosh botishi",ui_neon:"Neon"},
+en:{rules:"Take 1 or more sticks from a single row. Whoever takes the last stick loses. 30 seconds per turn.",bot:"🤖 Vs bot",pvp:"👥 Two players",easy:"Easy",mid:"Medium",hard:"Hard",take:"Take",again:"New game",card:"Your lobby card",player:"Player",shopSk:"Stick shop",shopUi:"Interface shop",my:"Your turn",p1:"Turn: Player 1",p2:"Turn: Player 2",pl1:"Player 1",pl2:"Player 2",think:"Bot is thinking…",sel:"Selected",pick:"Select",buy:"Buy for {N} 🪙",wins:"Wins",losses:"Losses",lose:"You took the last stick — you lose. +{N} 🪙",win:"Bot took the last stick — you win! +{N} 🪙",pvpEnd:"{L} took the last stick and lost. {W} wins!",sec:"s",online:"🌐 Online",nick:"Nickname",whoOn:"Online now",nobody:"Nobody yet. Invite a friend with a link!",needLogin:"Sign in to see who is online",invite:"Invite",invites:"{N} invites you to play",accept:"Accept",decline:"Decline",share:"Invite via Telegram",shareTxt:"Play Last Tick with me!",invSent:"Invite sent to {N}",pin:"PIN (4 digits)",login:"Sign in with Telegram",logout:"Sign out",badNick:"Nickname: 3–16 letters or digits",badPin:"PIN must be exactly 4 digits",wrongPin:"Wrong PIN",loginOk:"Done! Progress is saved to your account",noDb:"Nickname saved on this phone (accounts not available yet)",msgPh:"Message",send:"Send",mk:"Create room",jn:"Join",code:"Code",onHint:"Create a room or enter a friend’s code",waiting:"Room code: {C}. Waiting for opponent…",inRoom:"Room {C} · {A} — {B}",notFound:"Room not found",full:"Room is full",opp:"Opponent’s turn",onLose:"You took the last stick — you lose.",onWin:"Opponent took the last stick — you win!",offline:"Online is not available yet",sk_wood:"Wood",sk_candy:"Candy",sk_bbam:"Black bamboo",sk_ice:"Ice",sk_lava:"Lava",ui_forest:"Bamboo forest",ui_ocean:"Ocean",ui_sakura:"Sakura",ui_space:"Space",sk_bamboo:"Bamboo",sk_neon:"Neon",sk_gold:"Gold",ui_light:"Light",ui_dark:"Dark",ui_sunset:"Sunset",ui_neon:"Neon"}
 };
 const SK=[["wood",0],["bamboo",30],["candy",50],["neon",60],["bbam",70],["ice",90],["gold",120],["lava",150]];
 const UI=[["light",0],["dark",40],["forest",60],["sunset",70],["ocean",80],["sakura",90],["neon",100],["space",130]];
@@ -111,7 +118,8 @@ const save=()=>{try{localStorage.setItem("lasttick",JSON.stringify(S))}catch(e){
 const t=(k,o)=>{let s=L[S.lang][k];if(o)for(const x in o)s=s.replace("{"+x+"}",o[x]);return s};
 const $=id=>document.getElementById(id);
 let rows,sel,turn,over,mode="bot",lvl="mid",tl=30,tm=null,msgFn=()=>"",starter="me",botT=null,code=null,role=0,mv=0,pollT=null,live=false,opp="",chatSeen="",accFn=()=>"",syncT=null,infoFn=()=>"";
-const DB="https://quansight-last-tick-default-rtdb.firebaseio.com"; // адрес Firebase Realtime Database, например https://last-tick-default-rtdb.firebaseio.com
+const DB="https://quansight-last-tick-default-rtdb.firebaseio.com";
+const BOT="LastTickBot/play"; // имя_бота/короткое_имя_миниприложения, например LastTickBot/play // адрес Firebase Realtime Database, например https://last-tick-default-rtdb.firebaseio.com
 const can=()=>!over&&(mode==="pvp"||turn==="me");
 const msg=f=>{msgFn=f;$("msg").textContent=f()};
 const turnMsg=()=>mode==="pvp"?t(turn==="me"?"p1":"p2"):mode==="online"?t(turn==="me"?"my":"opp"):t("my");
@@ -134,7 +142,10 @@ function ctl(){
   seg($("modes"),[["bot",t("bot")],["pvp",t("pvp")],["online",t("online")]],mode,k=>{leaveRoom();mode=k;if(k==="online")goOnline();else start()});
   seg($("lvls"),[["easy",t("easy")],["mid",t("mid")],["hard",t("hard")]],lvl,k=>{lvl=k;start()});
   $("lvls").style.display=mode==="bot"?"flex":"none";
-  $("onl").style.display=mode==="online"?"block":"none";$("onBtns").style.display=code?"none":"block";$("onInfo").textContent=infoFn();$("cd").placeholder=t("code");document.querySelectorAll("[data-ph]").forEach(e=>e.placeholder=t(e.dataset.ph));$("chatBox").style.display=code?"block":"none";$("pname").textContent=S.nick||t("player");$("lo").style.display=S.nick?"":"none";$("accMsg").textContent=accFn();if(!$("nk").value&&S.nick)$("nk").value=S.nick;
+  $("onl").style.display=mode==="online"?"block":"none";$("onBtns").style.display=code?"none":"block";$("onInfo").textContent=infoFn();$("cd").placeholder=t("code");document.querySelectorAll("[data-ph]").forEach(e=>e.placeholder=t(e.dataset.ph));$("chatBox").style.display=code?"block":"none";$("pname").textContent=S.nick||t("player");$("lo").style.display=S.nick?"":"none";$("accMsg").textContent=accFn();if(!$("nk").value&&S.nick)$("nk").value=S.nick;$("sh").style.display=(code&&!live)?"block":"none";
+  const w=$("who");w.innerHTML="";
+  if(S.nick){if(S.photo){const im=document.createElement("img");im.src=S.photo;im.style.cssText="width:24px;height:24px;border-radius:50%;vertical-align:middle;margin-right:6px";w.appendChild(im)}w.appendChild(document.createTextNode((S.tg?"✈️ ":"")+S.nick))}
+  $("acc").style.display=S.tg?"none":"block";
 }
 
 function start(){
@@ -184,7 +195,7 @@ function move(who,r,n){
 }
 async function fb(m,p,b){const r=await fetch(DB+"/"+p+".json",{method:m,body:b===undefined?undefined:JSON.stringify(b)});return r.json()}
 function leaveRoom(){clearInterval(pollT);pollT=null;if(code&&DB)fb("DELETE","rooms/"+code).catch(()=>{});code=null;live=false;chatSeen="";opp="";$("chatLog").innerHTML="";infoFn=()=>""}
-function goOnline(){clearTimeout(botT);stopT();rows=[1,2,3,4,5];sel={r:-1,n:0};over=true;msg(()=>t("onHint"));draw()}
+function goOnline(){clearTimeout(botT);stopT();rows=[1,2,3,4,5];sel={r:-1,n:0};over=true;msg(()=>t("onHint"));draw();refreshPpl();heartbeat()}
 function fixRows(s){return Array.from({length:5},(_,i)=>(s.rows||[])[i]||0)}
 async function mkRoom(){
   if(!DB){msg(()=>t("offline"));return}
@@ -238,10 +249,10 @@ async function login(){
     if(!u){await fb("PUT","players/"+key,{pin:h,data:prog()})}
     else if(u.pin!==h){accFn=()=>t("wrongPin");draw();return}
     else if(u.data){const d=u.data;S.coins=d.coins||0;S.wins=d.wins||0;S.losses=d.losses||0;S.own=d.own||["sk:wood","ui:light"];S.sk=d.sk||"wood";S.ui=d.ui||"light"}
-    S.nick=n;S.acc=key;save();$("pn").value="";accFn=()=>t("loginOk");draw();
+    S.nick=n;S.acc=key;save();heartbeat();$("pn").value="";accFn=()=>t("loginOk");draw();
   }catch(e){accFn=()=>t("offline");draw()}
 }
-function logout(){S.nick="";S.acc=null;save();$("nk").value="";accFn=()=>"";draw()}
+function logout(){if(DB&&S.acc)fb("DELETE","online/"+S.acc).catch(()=>{});S.nick="";S.acc=null;save();$("nk").value="";accFn=()=>"";draw()}
 async function sendChat(){
   const m=$("cm").value.trim();if(!m||!code||!DB)return;$("cm").value="";
   fb("POST","rooms/"+code+"/chat",{n:myName(),m:m.slice(0,120),ts:Date.now()}).catch(()=>{});
@@ -253,7 +264,52 @@ function renderChat(s){
   ks.slice(-50).forEach(k=>{const d=document.createElement("div"),b=document.createElement("b");b.textContent=(c[k].n||"?")+": ";d.appendChild(b);d.appendChild(document.createTextNode(c[k].m||""));log.appendChild(d)});
   log.scrollTop=log.scrollHeight;
 }
-$("lg").onclick=login;$("lo").onclick=logout;$("cs").onclick=sendChat;$("cm").onkeydown=e=>{if(e.key==="Enter")sendChat()};
+let invData=null,lastInv=0;
+function heartbeat(){if(DB&&S.acc)fb("PUT","online/"+S.acc,{n:S.nick,ts:Date.now()}).catch(()=>{})}
+async function refreshPpl(){
+  const box=$("ppl");if(mode!=="online")return;
+  if(!DB||!S.acc){box.textContent=t("needLogin");return}
+  let o;try{o=await fb("GET","online")}catch(e){return}
+  const now=Date.now(),list=Object.entries(o||{}).filter(([k,v])=>k!==S.acc&&v&&Math.abs(now-v.ts)<30000);
+  box.innerHTML="";
+  if(!list.length){box.textContent=t("nobody");return}
+  list.forEach(([k,v])=>{
+    const r=document.createElement("div");r.style.cssText="display:flex;justify-content:space-between;align-items:center;padding:4px 0";
+    const s=document.createElement("span");s.textContent="🟢 "+(v.n||k);
+    const b=document.createElement("button");b.textContent=t("invite");b.onclick=()=>inviteTo(k,v.n||k);
+    r.appendChild(s);r.appendChild(b);box.appendChild(r);
+  });
+}
+async function inviteTo(k,name){
+  if(!code)await mkRoom();
+  if(!code)return;
+  try{await fb("PUT","invites/"+k,{from:myName(),code,ts:Date.now()});msg(()=>t("invSent",{N:name}))}catch(e){msg(()=>t("offline"))}
+}
+async function checkInv(){
+  if(!DB||!S.acc)return;
+  let v;try{v=await fb("GET","invites/"+S.acc)}catch(e){return}
+  if(!v||!v.code||Math.abs(Date.now()-v.ts)>60000||v.ts===lastInv)return;
+  lastInv=v.ts;invData=v;$("invTxt").textContent=t("invites",{N:v.from||"?"});$("inv").style.display="block";
+}
+function closeInv(){$("inv").style.display="none";if(DB&&S.acc)fb("DELETE","invites/"+S.acc).catch(()=>{})}
+async function acceptInv(){const v=invData;closeInv();if(!v)return;leaveRoom();mode="online";goOnline();$("cd").value=v.code;await joinRoom()}
+$("invYes").onclick=acceptInv;$("invNo").onclick=closeInv;
+$("sh").onclick=()=>{const link=BOT?("https://t.me/"+BOT+"?startapp="+code):location.href.split("?")[0].split("#")[0]+"?room="+code;window.open("https://t.me/share/url?url="+encodeURIComponent(link)+"&text="+encodeURIComponent(t("shareTxt")),"_blank")};
+addEventListener("pagehide",()=>{if(DB&&S.acc)fetch(DB+"/online/"+S.acc+".json",{method:"DELETE",keepalive:true})});
+async function tgLogin(u){
+  const key="tg:"+u.id,name=(u.first_name||u.username||"Player").slice(0,16);
+  S.tg=true;S.photo=u.photo_url||"";
+  if(DB){
+    try{
+      const r=await fb("GET","players/"+key);
+      if(r&&r.data){const d=r.data;S.coins=d.coins||0;S.wins=d.wins||0;S.losses=d.losses||0;S.own=d.own||["sk:wood","ui:light"];S.sk=d.sk||"wood";S.ui=d.ui||"light"}
+      else await fb("PUT","players/"+key,{tg:true,data:prog()});
+      S.acc=key;
+    }catch(e){}
+  }
+  S.nick=name;save();heartbeat();draw();
+}
+$("lg").onclick=()=>window.open("https://t.me/"+(BOT||"LastTickBot/play"),"_blank");$("lo").onclick=logout;$("cs").onclick=sendChat;$("cm").onkeydown=e=>{if(e.key==="Enter")sendChat()};
 $("take").onclick=()=>{if(sel.r>=0&&sel.n>0)move(turn,sel.r,sel.n)};
 $("again").onclick=start;
 
@@ -289,7 +345,13 @@ function shop(){
   };
   mk($("shopSk"),SK,"sk","sk");mk($("shopUi"),UI,"ui","ui");
 }
-start();
+const TG=window.Telegram&&Telegram.WebApp,tu=TG&&TG.initDataUnsafe&&TG.initDataUnsafe.user;
+if(tu){try{TG.ready();TG.expand()}catch(e){}tgLogin(tu)}
+const rp=new URLSearchParams(location.search).get("room")||(tu&&TG.initDataUnsafe.start_param)||"";
+if(rp&&/^\d{4}$/.test(rp)){mode="online";goOnline();$("cd").value=rp;joinRoom()}else start();
+heartbeat();
+setInterval(heartbeat,10000);setInterval(checkInv,3000);
+setInterval(()=>{if(mode==="online"&&!code)refreshPpl()},5000);
 </script>
 </body>
 </html>
